@@ -7,9 +7,18 @@
  * Повертає: Масив користувачів.
  */
 function getUsersFromDatabase(array) {
-  // Використовуємо метод `Array.from` для створення масиву користувачів зі списку, елементи якого це об'єкти які міститять
-  // id який дорівнює id користувача,firstName який дорівнює firstName користувача в верхньому регістрі та years який дорівнює age користувача
+  // Використовуємо метод `Array.from` для створення масиву користувачів
+  const usersArray = Array.from(array, (user) => {
+    // Створюємо об'єкт користувача
+    return {
+      id: user.id,
+      firstName: user.name.toUpperCase(), // Переводимо firstName в верхній регістр
+      years: user.age,
+    };
+  });
+
   // Повертаємо масив користувачів
+  return usersArray;
 }
 
 // Приклад використання функції getUsersFromDatabase
@@ -38,8 +47,15 @@ console.log(getUsersFromDatabase(userRecords));
  */
 function removeLastElement(arr) {
   // Перевіряємо, чи масив не є порожнім, якщо порожній повертаємо  undefined
+  if(Object.keys(arr).length==0){
+    console.log('undefied')
+  }else{
+    let lastIndex = arr.pop();
+  }
   // Використовуємо метод `pop` для видалення останнього елементу з масиву
   // Повертаємо оновлений масив
+  return arr;
+
 }
 
 // Приклад використання функції removeLastElement
@@ -56,15 +72,18 @@ console.log(removeLastElement([1, 2, 3, 4, 5])); // Виведе [1, 2, 3, 4]
  * Повертає: Новий масив, який містить елементи, що задовольняють умову.
  */
 function filterByCondition(arr, condition) {
-  // Використовуємо метод `filter` для фільтрації масиву
+  // Використовуємо метод `filter` для фільтрації масиву за вказаною умовою
+  let filteredArray = arr.filter(condition);
+  
   // Повертаємо відфільтрований масив
+  return filteredArray;
 }
 
 // Приклад використання функції filterByCondition
-
 let condition = (item) => item % 2 === 0; // Фільтруємо парні числа
 console.log("Завдання: 3 ==============================");
 console.log(filterByCondition([1, 2, 3, 4, 5], condition)); // Виведе [2, 4]
+
 
 // Завдання: 4
 
@@ -73,13 +92,26 @@ console.log(filterByCondition([1, 2, 3, 4, 5], condition)); // Виведе [2, 
  *  obj - Вхідний об'єкт, який буде перевірятись.
  *Повертає: `true`, якщо об'єкт є масивом, `false` - у протилежному випадку.
  */
-function checkArray(obj) {
-  // Перевіряємо, чи є об'єкт не null і не undefined
+ function checkArray(obj) {
+  // Перевіряємо, чи є об'єкт не null або undefined
+  if (obj === null || obj === undefined) {
+    console.log("Помилка: Вхідний об'єкт є null або undefined.");
+    return false;
+  }
+
   // Використовуємо метод `Array.isArray` для перевірки, чи є об'єкт масивом
+  const isArray = Array.isArray(obj);
+
   // Повертаємо результат перевірки
-  // Якщо об'єкт є null або undefined, виводимо повідомлення про помилку Помилка: Вхідний об'єкт є null або undefined.
-  //Повертаємо false
+  return isArray;
 }
+
+// Приклад використання функції checkArray
+console.log("Завдання:4 ==============================");
+console.log(checkArray([1, 2, 3, 4, 5])); // Виведе true
+console.log(checkArray("не масив")); // Виведе false
+console.log(checkArray(null)); // Виведе Помилка: Вхідний об'єкт є null або undefined. та false
+
 
 // Приклад використання функції checkArray
 console.log("Завдання:4 ==============================");
@@ -89,42 +121,63 @@ console.log(checkArray([1, 2, 3, 4, 5])); // Виведе true
 
 /**
  * Функція `createArray` створює новий масив з переданих елементів, використовуючи метод `Array.of`.
- * Повертає: elements - Елементи, з яких буде створений новий масив.
+ * elements - Елементи, з яких буде створений новий масив.
  * Повертає: Новий масив з переданих елементів.
  */
 function createArray(...elements) {
-  // Перевіряємо, чи кількість переданих елементів більше нуля
+  // Перевіряємо, чи передано хоча б один елемент
+  if (elements.length === 0) {
+    // Якщо не передано жодного елементу, виводимо повідомлення про помилку
+    console.log("Помилка: Не передано жодного елементу.");
+    // Повертаємо пустий масив
+    return [];
+  }
+
   // Використовуємо метод `Array.of` для створення нового масиву з переданих елементів
+  const newArray = Array.of(...elements);
+
   // Повертаємо створений масив
-  // Якщо не передано жодного елементу, виводимо повідомлення про помилку
-  //Повертаємо пустий масив
+  return newArray;
 }
 
 // Приклад використання функції createArray
-console.log("Завдання:5 ==============================");
 console.log(createArray(1, 2, 3, 4, 5)); // Виведе [1, 2, 3, 4, 5]
+console.log(createArray()); // Виведе Помилка: Не передано жодного елементу. та []
 
 // Завдання: 6 - Отримання елементу масиву за заданим індексом
 
 /**
  * Функція `getElementAtIndex` отримує елемент з масиву за заданим індексом, використовуючи метод `at`.
- *  arr - Вхідний масив.
- *  index - Індекс елементу, який потрібно отримати.
+ * arr - Вхідний масив.
+ * index - Індекс елементу, який потрібно отримати.
  * Повертає Елемент з масиву за заданим індексом або `undefined`, якщо індекс виходить за межі масиву.
  */
 function getElementAtIndex(arr, index) {
   // Перевіряємо, чи масив не є порожнім
-  // Повертаємо undefined
+  if (arr.length === 0) {
+    // Якщо масив порожній, повертаємо undefined
+    console.log("Помилка: Масив порожній.");
+    return undefined;
+  }
+
   // Перевіряємо, чи індекс знаходиться в межах довжини масиву
-  // Отримуємо елемент з масиву за заданим індексом
-  // Повертаємо отриманий елемент
-  // Якщо індекс виходить за межі масиву,повертаємо undefined
+  if (index >= 0 && index < arr.length) {
+    // Отримуємо елемент з масиву за заданим індексом
+    const element = arr[index];
+    // Повертаємо отриманий елемент
+    return element;
+  } else {
+    // Якщо індекс виходить за межі масиву, повертаємо undefined
+    console.log("Помилка: Індекс виходить за межі масиву.");
+    return undefined;
+  }
 }
 
 // Приклад використання функції getElementAtIndex
-console.log("Завдання:6 ==============================");
-
 console.log(getElementAtIndex([1, 2, 3, 4, 5], 2)); // Виведе 3
+console.log(getElementAtIndex([], 0)); // Виведе Помилка: Масив порожній. та undefined
+console.log(getElementAtIndex([1, 2, 3], 5)); // Виведе Помилка: Індекс виходить за межі масиву. та undefined
+
 
 // Завдання:7
 
@@ -136,12 +189,19 @@ console.log(getElementAtIndex([1, 2, 3, 4, 5], 2)); // Виведе 3
  */
 function combineAndReverseArrays(arr1, arr2) {
   // Перевіряємо, чи обидва аргументи є масивами
-  //  Якщо ні повертаємо пустий масив
-  // Об'єднуємо два масиви за допомогою методу `concat`
-  // Обертаємо отриманий об'єднаний масив за допомогою методу `reverse`
-  // Повертаємо об'єднаний та обернутий масив
-}
+  if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+    // Якщо хоча б один з аргументів не є масивом, повертаємо пустий масив
+    console.log("Помилка: Один з аргументів не є масивом.");
+    return [];
+  }
 
+  // Об'єднуємо два масиви за допомогою методу `concat`
+  let combinedArray = arr1.concat(arr2);
+  // Обертаємо отриманий об'єднаний масив за допомогою методу `reverse`
+  let reversedArray = combinedArray.reverse();
+  // Повертаємо об'єднаний та обернутий масив
+  return reversedArray;
+}
 // Приклад використання функції combineAndReverseArrays
 console.log("Завдання:7 ==============================");
 
@@ -157,13 +217,32 @@ console.log(combineAndReverseArrays([1, 2, 3], [4, 5, 6])); //Виведе [ 6, 
  */
 function findElementIndexes(arr, element) {
   // Перевіряємо, чи аргумент є масивом
-  // якщо ні повертаємо пустий масив
+  if (!Array.isArray(arr)) {
+    // якщо ні повертаємо пустий масив
+    return [];
+  }
+
   // Знаходимо індекс першого знайденого елементу за допомогою методу `indexOf`
+  let firstIndex = arr.indexOf(element);
+
   // Знаходимо індекс останнього знайденого елементу за допомогою методу `lastIndexOf`
+  let lastIndex = arr.lastIndexOf(element);
+
   // Створюємо пустий масив індексів знайдених елементів
+  let indexes = [];
+
   // Додаємо перший знайдений індекс, якщо елемент знайдено
+  if (firstIndex !== -1) {
+    indexes.push(firstIndex);
+  }
+
   // Додаємо останній знайдений індекс, якщо він відрізняється від першого
+  if (firstIndex !== lastIndex) {
+    indexes.push(lastIndex);
+  }
+
   // Повертаємо масив індексів
+  return indexes;
 }
 
 // Приклад використання функції findElementIndexes
@@ -182,32 +261,32 @@ console.log(findElementIndexes([1, 2, 3, 4, 5, 2], 2)); //Виведе [ 1, 5 ]
  * Повертає: Модифікований масив з копійованими та переставленими елементами.
  */
 function copyAndSwapElements(arr, target, start, end) {
-  // Перевіряємо, чи індекси належать межам масиву якщо ні виводимо рядок Неприпустимі індекси
+  // Перевіряємо, чи індекси належать межам масиву
+  if (start < 0 || start >= arr.length || end < 0 || end >= arr.length) {
+    console.log("Неприпустимі індекси");
+    return arr;
+  }
   // Копіюємо та переставляємо елементи за допомогою методу `copyWithin`
+  arr.copyWithin(target, start, end);
   // Повертаємо модифікований масив
+  return arr;
 }
 
 // Приклад використання функції copyAndSwapElements
-
 console.log("Завдання:9 ==============================");
-
 console.log(copyAndSwapElements([1, 2, 3, 4, 5], 0, 2, 4)); // Виведе [3, 4, 3, 4, 5]
 
-// Завдання:10
-// В даному завданні ми створимо функцію, яка використовує метод `sort` для сортування масиву об'єктів за допомогою певного ключа.
 
-/**
- * Функція `sortByKey` сортує вхідний масив об'єктів за допомогою методу `sort` та заданого ключа.
- *  arr - Вхідний масив об'єктів.
- * Повертає:  Ключ, за яким потрібно сортувати об'єкти.
- * Повертає: Відсортований масив об'єктів.
- */
 function sortByKey(arr, key) {
-  // Використовуємо метод `sort` передаємо в нього два аргументи a та b, для сортування масиву об'єктів за заданим ключем
-  // якщо a[key] < b[key] повертаємо -1
-  // якщо a[key] > b[key] повертаємо 1
-  // інакше повертаємо 0
+  // Використовуємо метод `sort` для сортування масиву об'єктів за заданим ключем
+  arr.sort((a, b) => {
+    if (a[key] < b[key]) return -1;
+    if (a[key] > b[key]) return 1;
+    return 0;
+  });
+
   // Повертаємо відсортований масив об'єктів
+  return arr;
 }
 
 console.log("Завдання: 10 ==============================");
@@ -217,6 +296,7 @@ let unsortedArray = [
   { name: "Jane", age: 30 },
   { name: "Mike", age: 20 },
 ];
+
 console.log(sortByKey(unsortedArray, "age"));
 // Виведе:
 // [
@@ -224,6 +304,7 @@ console.log(sortByKey(unsortedArray, "age"));
 //   { name: 'John', age: 25 },
 //   { name: 'Jane', age: 30 }
 // ]
+
 
 // Завдання: 11
 
@@ -375,4 +456,4 @@ console.log("Завдання: 17 ==============================");
 console.log(customIncludes(["apple", "banana", "orange", "apple"], "banana"));
 // Виведе
 // 1
-// true
+// true}
